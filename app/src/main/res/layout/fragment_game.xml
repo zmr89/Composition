@@ -155,6 +155,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvVisibleNumber"
+        app:layout_constraintVertical_bias="0.497"
         tools:text="@string/progress_answers" />
 
     <ProgressBar
@@ -163,8 +164,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:secondaryProgressTint="@color/teal_700"
-        android:max="100"
+        android:secondaryProgressTint="#000048"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPercentCorrect" />
