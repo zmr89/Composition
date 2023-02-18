@@ -10,12 +10,12 @@
     >
 
     <ImageView
-        android:id="@+id/emoji_result"
+        android:id="@+id/emojiResult"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="48dp"
         android:contentDescription="@string/game_over"
-        app:layout_constraintBottom_toTopOf="@id/tv_required_answers"
+        app:layout_constraintBottom_toTopOf="@id/tvRequiredAnswers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,60 +23,59 @@
         />
 
     <TextView
-        android:id="@+id/tv_required_answers"
+        android:id="@+id/tvRequiredAnswers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/required_score"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/tv_score_answers"
+        app:layout_constraintBottom_toTopOf="@id/tvScoreAnswers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/tv_score_answers"
+        android:id="@+id/tvScoreAnswers"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/score_answers"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/tv_required_percentage"
-        app:layout_constraintEnd_toEndOf="@id/tv_required_answers"
-        app:layout_constraintStart_toStartOf="@id/tv_required_answers"
-        app:layout_constraintTop_toBottomOf="@id/tv_required_answers"
+        app:layout_constraintBottom_toTopOf="@id/tvRequiredPercentage"
+        app:layout_constraintEnd_toEndOf="@id/tvRequiredAnswers"
+        app:layout_constraintStart_toStartOf="@id/tvRequiredAnswers"
+        app:layout_constraintTop_toBottomOf="@id/tvRequiredAnswers"
         />
 
     <TextView
-        android:id="@+id/tv_required_percentage"
+        android:id="@+id/tvRequiredPercentage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/required_percentage"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/tv_score_percentage"
-        app:layout_constraintEnd_toEndOf="@id/tv_required_answers"
-        app:layout_constraintStart_toStartOf="@id/tv_required_answers"
-        app:layout_constraintTop_toBottomOf="@id/tv_score_answers"
+        app:layout_constraintBottom_toTopOf="@id/tvScorePercentage"
+        app:layout_constraintEnd_toEndOf="@id/tvRequiredAnswers"
+        app:layout_constraintStart_toStartOf="@id/tvRequiredAnswers"
+        app:layout_constraintTop_toBottomOf="@id/tvScoreAnswers"
         app:layout_constraintVertical_chainStyle="packed"
         />
 
     <TextView
-        android:id="@+id/tv_score_percentage"
+        android:id="@+id/tvScorePercentage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/score_percentage"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/tv_required_answers"
-        app:layout_constraintStart_toStartOf="@id/tv_required_answers"
-        app:layout_constraintTop_toBottomOf="@id/tv_required_percentage"
+        app:layout_constraintEnd_toEndOf="@id/tvRequiredAnswers"
+        app:layout_constraintStart_toStartOf="@id/tvRequiredAnswers"
+        app:layout_constraintTop_toBottomOf="@id/tvRequiredPercentage"
         />
 
     <Button
-        android:id="@+id/button_retry"
+        android:id="@+id/buttonRetry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/retry"

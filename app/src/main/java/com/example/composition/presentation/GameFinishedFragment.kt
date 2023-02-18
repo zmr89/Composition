@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.example.composition.R
 import com.example.composition.databinding.FragmentGameFinishedBinding
@@ -16,16 +17,14 @@ import com.example.composition.domain.entity.GameSettings
 class GameFinishedFragment : Fragment() {
     lateinit var gameResult: GameResult
 
-    var _binding: FragmentGameFinishedBinding? = null
-    val binding: FragmentGameFinishedBinding
+    private var _binding: FragmentGameFinishedBinding? = null
+    private val binding: FragmentGameFinishedBinding
         get() = _binding ?: throw RuntimeException("FragmentGameFinishedBinding == null")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseArgs()
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +38,8 @@ class GameFinishedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViews()
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 retryGame()
@@ -50,8 +51,6 @@ class GameFinishedFragment : Fragment() {
         }
 
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -79,6 +78,36 @@ class GameFinishedFragment : Fragment() {
     fun retryGame() {
         requireActivity().supportFragmentManager.popBackStack(GameFragment.NAME,
             FragmentManager.POP_BACK_STACK_INCLUSIVE )
+    }
+
+    private fun initViews() {
+        setEmojiResult()
+        binding.tvRequiredAnswers.text = String.format(
+            requireActivity().resources.getString(R.string.required_score),
+            gameResult.gameSettings.minCountOfRightAnswers)
+        binding.tvScoreAnswers.text = String.format(
+            requireActivity().resources.getString(R.string.score_answers),
+            gameResult.countOfRightAnswers)
+        binding.tvRequiredPercentage.text = String.format(
+            requireActivity().resources.getString(R.string.required_percentage),
+            gameResult.gameSettings.minPercentOfRightAnswers)
+        binding.tvScorePercentage.text = String.format(
+            requireActivity().resources.getString(R.string.score_percentage),
+            calculatePercent())
+    }
+
+    private fun setEmojiResult() {
+        val imageResId = if (gameResult.winner) {R.drawable.ic_smile} else {R.drawable.ic_sad}
+        val imageDraw = ContextCompat.getDrawable(requireContext(), imageResId)
+        binding.emojiResult.setImageDrawable(imageDraw)
+    }
+
+    private fun calculatePercent(): Int {
+        val percent = if (gameResult.countOfQuestions == 0) { 0 }
+        else {((gameResult.countOfRightAnswers.toDouble()
+                    / gameResult.countOfQuestions) * 100).toInt()
+        }
+        return percent
     }
 
 }
