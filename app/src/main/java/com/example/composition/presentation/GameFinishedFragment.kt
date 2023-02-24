@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.composition.R
 import com.example.composition.databinding.FragmentGameFinishedBinding
 import com.example.composition.domain.entity.GameResult
@@ -15,16 +17,11 @@ import com.example.composition.domain.entity.GameSettings
 
 
 class GameFinishedFragment : Fragment() {
-    lateinit var gameResult: GameResult
+    private val args by navArgs<GameFinishedFragmentArgs>()
 
     private var _binding: FragmentGameFinishedBinding? = null
     private val binding: FragmentGameFinishedBinding
         get() = _binding ?: throw RuntimeException("FragmentGameFinishedBinding == null")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        parseArgs()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,16 +37,9 @@ class GameFinishedFragment : Fragment() {
 
         initViews()
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                retryGame()
-            }
-        })
-
         binding.buttonRetry.setOnClickListener {
             retryGame()
         }
-
     }
 
     override fun onDestroyView() {
@@ -57,55 +47,36 @@ class GameFinishedFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        private const val GAME_RESULT_ARGUMENT = "game_result"
-
-        fun newInstance(gameResult: GameResult): GameFinishedFragment {
-            return GameFinishedFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(GAME_RESULT_ARGUMENT, gameResult)
-                }
-            }
-        }
-    }
-
-    private fun parseArgs() {
-        requireArguments().getParcelable<GameResult>(GAME_RESULT_ARGUMENT)?.let {
-            gameResult = it
-        }
-    }
-
     fun retryGame() {
-        requireActivity().supportFragmentManager.popBackStack(GameFragment.NAME,
-            FragmentManager.POP_BACK_STACK_INCLUSIVE )
+        findNavController().popBackStack()
     }
 
     private fun initViews() {
         setEmojiResult()
         binding.tvRequiredAnswers.text = String.format(
             requireActivity().resources.getString(R.string.required_score),
-            gameResult.gameSettings.minCountOfRightAnswers)
+            args.gameResult.gameSettings.minCountOfRightAnswers)
         binding.tvScoreAnswers.text = String.format(
             requireActivity().resources.getString(R.string.score_answers),
-            gameResult.countOfRightAnswers)
+            args.gameResult.countOfRightAnswers)
         binding.tvRequiredPercentage.text = String.format(
             requireActivity().resources.getString(R.string.required_percentage),
-            gameResult.gameSettings.minPercentOfRightAnswers)
+            args.gameResult.gameSettings.minPercentOfRightAnswers)
         binding.tvScorePercentage.text = String.format(
             requireActivity().resources.getString(R.string.score_percentage),
             calculatePercent())
     }
 
     private fun setEmojiResult() {
-        val imageResId = if (gameResult.winner) {R.drawable.ic_smile} else {R.drawable.ic_sad}
+        val imageResId = if (args.gameResult.winner) {R.drawable.ic_smile} else {R.drawable.ic_sad}
         val imageDraw = ContextCompat.getDrawable(requireContext(), imageResId)
         binding.emojiResult.setImageDrawable(imageDraw)
     }
 
     private fun calculatePercent(): Int {
-        val percent = if (gameResult.countOfQuestions == 0) { 0 }
-        else {((gameResult.countOfRightAnswers.toDouble()
-                    / gameResult.countOfQuestions) * 100).toInt()
+        val percent = if (args.gameResult.countOfQuestions == 0) { 0 }
+        else {((args.gameResult.countOfRightAnswers.toDouble()
+                    / args.gameResult.countOfQuestions) * 100).toInt()
         }
         return percent
     }

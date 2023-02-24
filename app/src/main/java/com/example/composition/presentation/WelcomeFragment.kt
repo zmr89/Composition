@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.composition.R
 import com.example.composition.databinding.FragmentWelcomeBinding
 
@@ -35,9 +36,7 @@ class WelcomeFragment : Fragment() {
     }
 
     private fun launchChooseLevelFragment() {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.mainFragmentContainer,
-                ChooseLevelFragment.newInstance()).addToBackStack(ChooseLevelFragment.NAME).commit()
+        findNavController().navigate(R.id.action_welcomeFragment2_to_chooseLevelFragment)
     }
 
 }
